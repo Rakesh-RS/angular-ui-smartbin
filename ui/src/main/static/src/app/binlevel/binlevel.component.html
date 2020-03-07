@@ -1,0 +1,11 @@
+<div class="container color-dark">
+
+    <div class="col">
+        <p>Sensor Data </p>
+    </div>
+    <div [ngClass]=" dataSource>80 ? 'next1' : 'next2'">
+
+        <p> {{ dataSource }} %</p>
+        <!-- <p> {{ depth }}</p> -->
+    </div>
+</div>
