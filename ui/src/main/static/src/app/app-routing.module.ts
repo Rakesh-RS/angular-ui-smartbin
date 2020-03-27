@@ -8,6 +8,7 @@ import {TestComponent} from './test/test.component';
 import {BinlevelComponent} from './binlevel/binlevel.component';
 
 const routes: Routes = [
+  { path: '', redirectTo: 'home', pathMatch: 'full'},
   {
     path: 'home',
     component: HomeComponent

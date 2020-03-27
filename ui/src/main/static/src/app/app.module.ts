@@ -25,6 +25,7 @@ import { HttpClientModule }    from '@angular/common/http';
 
 import { BinlevelComponent } from './binlevel/binlevel.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DialogBoxComponent } from './dialog-box/dialog-box.component';
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     // HttpClientModule,
     DataTableComponent,
   //  DialogBoxComponent,
-    BinlevelComponent
+    BinlevelComponent,
+  DialogBoxComponent
   ],
   imports: [
     BrowserModule,
@@ -67,9 +69,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     }),
     BrowserAnimationsModule   
   ],
-  // entryComponents: [
-  //   DialogBoxComponent
-  // ],
+  entryComponents: [
+    DialogBoxComponent
+  ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   providers: [],
   bootstrap: [AppComponent]

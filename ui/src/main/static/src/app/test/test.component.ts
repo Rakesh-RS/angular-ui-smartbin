@@ -6,7 +6,7 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-
+import {  DialogBoxComponent } from '../dialog-box/dialog-box.component';
 //import { HttpClient } from '@angular/common/http';
 
 export interface PeriodicElement {
@@ -16,7 +16,7 @@ export interface PeriodicElement {
   symbol: string;
 }
 
-const endpoint = 'http://localhost:8080/smartbin/api/user/all';
+const endpoint = 'http://localhost:8080/smartbin/api/user/';
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type':  'application/json'
@@ -26,14 +26,6 @@ const httpOptions = {
 // const ELEMENT_DATA: PeriodicElement[] = [
 //   {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
 //   {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-//   {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-//   {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-//   {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-//   {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-//   {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-//   {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-//   {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-//   {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
 // ];
 
 @Component({
@@ -42,7 +34,7 @@ const httpOptions = {
   styleUrls: ['./test.component.scss']
 })
 export class TestComponent  implements OnInit {
-  displayedColumns: string[] = ['NAME', 'CITY', 'ADDRESS', 'ZIPCODE','MOBILE','EMAIL'];
+  displayedColumns: string[] = ['NAME', 'CITY', 'ADDRESS', 'ZIPCODE','MOBILE','EMAIL','ACTIONS'];
 
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -52,10 +44,11 @@ export class TestComponent  implements OnInit {
   ngOnInit() {
     this.dataSource.paginator = this.paginator;
   }
- dialog : any;
+  
+ //dialog : any;
  table :any;
 dataSource :any =[];
-  constructor(private http:HttpClient) { 
+  constructor(private http:HttpClient,public dialog:MatDialog) { 
     
     //this.dataSource  =ELEMENT_DATA;
     this._getAllUser();
@@ -65,7 +58,7 @@ dataSource :any =[];
   //  }
 
    _getAllUser(){
-    this.http.get(endpoint).subscribe((data: any[]) => 
+    this.http.get(endpoint+'all').subscribe((data: any[]) => 
     this.dataSource = new MatTableDataSource<any>(data),
     error => () => { debugger;
       alert('error Something went wrong...');
@@ -80,34 +73,62 @@ dataSource :any =[];
    // this.dataSource.sort = this.sort;
    this.table=this.dataSource;
   }
-  openDialog(action,obj) {
+  openDialog(action,obj) { debugger;
     obj.action = action;
-    const dialogRef = this.dialog.open(TestComponent, {
-      width: '250px',
+    
+    const dialogRef = this.dialog.open(DialogBoxComponent, {
+      width: '600px',
       data:obj
-    });
+    });debugger;
+    if(action=='Add')
+    {
+      this.addRowData(obj);
+    }
+    else if (action=='Update') {debugger;
+      this.updateRowData(obj);
+      
+    } else {
+      this.deleteRowData(obj.id);
+    }
  
     dialogRef.afterClosed().subscribe(result => {
+      //console.log("closing to the dialog");
       if(result.event == 'Add'){
         this.addRowData(result.data);
+        
       }else if(result.event == 'Update'){
         this.updateRowData(result.data);
-      }else if(result.event == 'Delete'){
+       // console.log("updating");
+        
+      }else {
         this.deleteRowData(result.data);
       }
     });
   }
+  
  
-  addRowData(row_obj){
-    var d = new Date();
-    this.dataSource.push({
-      id:d.getTime(),
-      name:row_obj.name
-    });
-    this.table.renderRows();
+  addRowData(row_obj){ debugger;
+    console.log(row_obj,"add row");
+    this.http.post(endpoint+'add', row_obj);
+    // var d = new Date();
+    // this.dataSource.push({
+    //   id:d.getTime(),
+    //   name:row_obj.name
+    // });
+    // this.table.renderRows();
     
   }
-  updateRowData(row_obj){
+  updateRowData(row_obj){debugger;
+    console.log(row_obj,"from update");
+    this.http.put(endpoint+"update",row_obj).subscribe(data => {  
+     alert(data);
+     console.log(data);
+    },  
+      error => {  
+        alert(error);  
+      });
+
+
     this.dataSource = this.dataSource.filter((value,key)=>{
       if(value.id == row_obj.id){
         value.name = row_obj.name;
@@ -115,11 +136,13 @@ dataSource :any =[];
       return true;
     });
   }
-  deleteRowData(row_obj){
-    this.dataSource = this.dataSource.filter((value,key)=>{
-      return value.id != row_obj.id;
-    });
+  
+  deleteRowData(row_obj){debugger;
+    // this.dataSource = this.dataSource.filter((value,key)=>{
+    //   return value.id != row_obj.id;
+    // });
   }
- //@ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-  //dataSource = new MatTableDataSource<PeriodicElement>();
+
+  
+ 
 }

@@ -1,17 +1,15 @@
 <div class="mat-elevation-z8">
     <button mat-button (click)="openDialog('Add',{})" mat-flat-button color="primary">Add Row</button>
-
-
-
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
-        <ng-container matColumnDef="actions">
+        <ng-container matColumnDef="ACTIONS">
             <mat-header-cell *matHeaderCellDef>Actions </mat-header-cell>
             <mat-cell *matCellDef="let row">
-                <button mat-icon-button matTooltip="Click to Edit" class="iconbutton" color="primary">
-                  <mat-icon aria-label="Edit">edit</mat-icon>
+                <button mat-icon-button matTooltip="Click to Edit" class="iconbutton" color="primary" (click)="openDialog('update',row)">
+                  <mat-icon aria-label="Edit">Edit</mat-icon>
                 </button>
-                <button mat-icon-button matTooltip="Click to Delete" class="iconbutton" color="warn">
+                <button mat-icon-button matTooltip="Click to Delete" (click)="openDialog('delete',row)" class="iconbutton" color="warn">
+                    <!-- (click)="openDialog('delete',row)"  -->
                   <mat-icon aria-label="Delete">delete</mat-icon>
                 </button>
             </mat-cell>
@@ -55,5 +53,5 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20,25]" showFirstLastButtons></mat-paginator>
 </div>
