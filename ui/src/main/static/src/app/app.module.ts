@@ -12,6 +12,7 @@ import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 import { FormsModule , ReactiveFormsModule}   from '@angular/forms';
 import { MymapComponent } from './mymap/mymap.component';
+import { ChartsModule } from 'ng2-charts';
 //import { ResultComponent } from './result/result.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ContactusComponent } from './contactus/contactus.component';
@@ -22,10 +23,11 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { AgmCoreModule } from '@agm/core';
 import { HttpClientModule }    from '@angular/common/http';
-
+import { SliderModule } from 'angular-image-slider';
 import { BinlevelComponent } from './binlevel/binlevel.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DialogBoxComponent } from './dialog-box/dialog-box.component';
+
 
 
 @NgModule({
@@ -49,9 +51,11 @@ import { DialogBoxComponent } from './dialog-box/dialog-box.component';
     AppRoutingModule,
     FormsModule,ReactiveFormsModule, 
     MatTableModule,
+    ChartsModule ,
     MatPaginatorModule,
     MatSortModule,
     FormsModule,
+    SliderModule,
     MatTableModule,
     MatDialogModule,
     MatFormFieldModule,

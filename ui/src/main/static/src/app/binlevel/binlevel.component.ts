@@ -4,6 +4,8 @@ import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
 
 //import $ from 'jquery';
+import { Label } from 'ng2-charts';
+
 
 
 
@@ -27,6 +29,22 @@ const httpOptions = {
 })
 export class BinlevelComponent implements OnInit {
   //displayed: string ="Sensor data";
+  
+  //pie
+  public full:number;
+ public pieChartLabels:string[] = ['Full', 'Empty'];
+  public pieChartData:number[] = [this.full,100-this.full,10,90];
+  public pieChartType:string = 'pie';
+ 
+  // events
+  public chartClicked(e:any):void {
+    console.log(e);
+  }
+ 
+  public chartHovered(e:any):void {
+    console.log(e);
+  }
+
 
   
   private serverUrl = 'http://localhost:8080/smartbin/sensor-websocket'
@@ -64,6 +82,7 @@ export class BinlevelComponent implements OnInit {
       that.stompClient.subscribe("/enable-broker/updates", (message) => {
         if(message.body) { debugger;
           that.dataSource = message.body;
+          //this.full=message.body;
          // that.condition = (message.body)%2==0?true:false;
          // $(".chat").append("<div class='message'>"+message.body+"</div>")
           console.log(message.body);
